@@ -42,7 +42,7 @@ def readSensor():
 
     print(f"Serial data :\n{serialData}")
     insideHumidity, insideTemperature, Moisure, outsideHumidity, outsideTemperature = (
-        e for e in serialData[:4]
+        int(e) for e in serialData[:4] # Maybe not int?
     )
 
     light = 1  # placeholder

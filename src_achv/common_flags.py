@@ -1,4 +1,4 @@
-class Stat():
+class Stat:
     REQUESTED = 0
     ANSWERED = 1
     ACQUIRED = 2
@@ -6,15 +6,16 @@ class Stat():
     READY = 4
 
 
-class Comp():
+class Comp:
     LINE = 0
     INPUT = 1
     CORE = 2
     OUTPUT = 3
     FLAG = 4
     NULLIUS = 5
-    
-class Env():
+
+
+class Env:
     temp = 0
     humi = 1
     mois = 2

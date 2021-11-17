@@ -16,9 +16,11 @@ def on_message(client, obj, msg):
         print("edit\n  Applying new configuration")
         m_in = json.loads(cmd)
         f = open("now_setting.conf", "w")
-        f.write("{0} {1} {2} {3}".format (
-            m_in["temp"], m_in["humi"], m_in["mois"], m_in["lumi"]
-        ))
+        f.write(
+            "{0} {1} {2} {3}".format(
+                m_in["temp"], m_in["humi"], m_in["mois"], m_in["lumi"]
+            )
+        )
         f.close()
         print("Done\n")
 
@@ -26,10 +28,16 @@ def on_message(client, obj, msg):
 def send_stat():
     print("Waiting for answer... ")
     buffer = get_answer()
-    print("Finished getting answer, sending data to Line... ",)
+    print(
+        "Finished getting answer, sending data to Line... ",
+    )
     broker_out = {
-        "in_humi": buffer[2], "in_temp": buffer[3], "out_humi": buffer[4],
-        "out_temp": buffer[5], "mois": buffer[6], "lumi": buffer[7]
+        "in_humi": buffer[2],
+        "in_temp": buffer[3],
+        "out_humi": buffer[4],
+        "out_temp": buffer[5],
+        "mois": buffer[6],
+        "lumi": buffer[7],
     }
     print(str(buffer))
     data_out = json.dumps(broker_out)
@@ -41,7 +49,7 @@ def get_answer():
     r_flag = Flag(open("request.flg", "r+"))
     b_flag = Flag(open("busy.flg", "r+"))
     a_flag = Flag(open("answer.flg", "r+"))
-    
+
     # Wait until ready
     print("Getting b_flag data... ", end="")
     b_flag.get_data()
@@ -49,12 +57,12 @@ def get_answer():
         time.sleep(0.5)
         b_flag.get_data()
     print("Done")
-    
+
     # Request data
     print("Set r_flag to REQUESTED... ", end="")
     r_flag.set_stat([cf.Comp.LINE, cf.Stat.REQUESTED, 0, 0, 0, 0, 0, 0])
     print("Done")
-    
+
     while True:
         a_flag.flag_f = open("answer.flg", "r+")
         r_flag.flag_f = open("request.flg", "r+")
@@ -64,7 +72,7 @@ def get_answer():
         print("  Getting r_flag data... ")
         r_flag.get_data()
         print("    got --> " + str(r_flag.buffer))
-        
+
         if a_flag.is_answered() and r_flag.buffer:
             print("  Set r_flag to ACQUIRED... ", end="")
             r_flag.set_stat([cf.Comp.LINE, cf.Stat.ACQUIRED, 0, 0, 0, 0, 0, 0])
@@ -75,7 +83,7 @@ def get_answer():
             del a_flag
             del b_flag
             return buffer
-            
+
         a_flag.flag_f.close()
         r_flag.flag_f.close()
         time.sleep(1)
@@ -87,7 +95,7 @@ print("Initialising... ", end="")
 mqttc = mqtt.Client()
 mqttc.on_message = on_message
 mqttc.username_pw_set("brsiutlc", "Rw4rcSFm_gCL")
-mqttc.connect('m15.cloudmqtt.com', 17711)
+mqttc.connect("m15.cloudmqtt.com", 17711)
 mqttc.subscribe("/test1", 0)
 print("Done\nWaiting for Line payload... \n")
 mqttc.loop_forever()

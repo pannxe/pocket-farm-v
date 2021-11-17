@@ -1,8 +1,7 @@
 from common_flags import Stat
 
 
-class Flag():
-
+class Flag:
     def __init__(self, f):
         self.flag_f = f
 
