@@ -50,8 +50,6 @@ def readSensor():
     ]
 
     data = {keys[i]: int(serialData[i]) for i in range(5)}
-
-    keys["light"] = 1  # placeholder
+    data["light"] = 1  # placeholder
 
     return data
-    # TODO send data to communicator
