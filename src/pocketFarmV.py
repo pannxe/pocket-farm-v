@@ -14,7 +14,8 @@ def editHandler():
 
 
 def invalidHandler():
-    pass  # TODO
+    print("[ Error ] Invalid command.")
+    # TODO
 
 
 commandList = {"stat": statHandler, "edit": editHandler}
@@ -28,7 +29,7 @@ def onMessage(client, obj, msg):
     if cmd not in commandList:
         invalidHandler()
     else:
-        commandList[cmd]
+        commandList[cmd]()
 
 
 def main():

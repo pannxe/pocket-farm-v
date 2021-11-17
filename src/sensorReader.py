@@ -1,7 +1,6 @@
 import serial
 import time
 
-VERSION = "1.0.0"
 
 ARDUINO_TIMEOUT = 5  # Wait for serial from Arduino n cycle until time out
 ARDUINO_WAIT_TIME = 0.25  # Wait time for serial from Arduino in each cycle
@@ -41,23 +40,18 @@ def readSensor():
         print("[ ERROR ] Cannot get serial data from Arduino.")
 
     print(f"Serial data :\n{serialData}")
-    insideHumidity, insideTemperature, Moisure, outsideHumidity, outsideTemperature = (
-        int(e) for e in serialData[:4] # Maybe not int?
-    )
 
-    light = 1  # placeholder
+    keys = [
+        "insideHumidity",
+        "insideTemperature",
+        "Moisure",
+        "outsideHumidity",
+        "outsideTemperature",
+    ]
 
+    data = {keys[i]: int(serialData[i]) for i in range(5)}
+
+    keys["light"] = 1  # placeholder
+
+    return data
     # TODO send data to communicator
-
-
-def main():
-    print("Pocket Farm' V")
-    print("SENSOR READER MODULE")
-    print(f"VERSION : {VERSION}")
-    print("_________________________\n")
-
-    # TODO
-
-
-if __name__ == "__main__":
-    main()
